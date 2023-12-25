@@ -14,4 +14,4 @@ spec:
     spec:
       containers:
         - name: logoutput
-          image: mahk00/logoutput:latest
+          image: mahk00/logoutput:0.2.1

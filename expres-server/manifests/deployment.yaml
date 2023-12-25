@@ -14,4 +14,4 @@ spec:
     spec:
       containers:
         - name: todo
-          image: mahk00/todo:latest
+          image: mahk00/todo:0.3.1
