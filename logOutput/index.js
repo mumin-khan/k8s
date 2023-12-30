@@ -1,6 +1,10 @@
 import express from 'express'
 const app =express()
+import path from 'path'
+import fs from 'fs'
 
+const directory = path.join('/', 'usr', 'src', 'app', 'files')
+const filePath = path.join(directory, 'timestamp.txt')
 const port = process.env.PORT || 3000;
 ;
 
@@ -24,10 +28,21 @@ function generateRandomString(length) {
        console.log(randomString,currentDate ) 
     }, 5000);
 
-
+const getFile = async () => new Promise(res => {
+      fs.readFile(filePath, (err, buffer) => {
+        if (err) return console.log('FAILED TO READ FILE', '----------------', err)
+        res(buffer)
+      })
+    })
     app.get('/status', function (req, res)
     {
       res.send(`string:${randomString}, tstamp:${currentDate}`);
+    })
+
+    app.get('/read',async function(req,res)
+    {
+      res.send(`${await getFile()} ###`)
+
     })
     // Start the server
     app.listen(port, () => {

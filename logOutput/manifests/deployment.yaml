@@ -1,17 +1,28 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: logoutput
+  name: file-dep
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: logoutput
+      app: images
   template:
     metadata:
       labels:
-        app: logoutput
+        app: images
     spec:
+      volumes: # Define volume
+        - name: shared-file
+          emptyDir: {}
       containers:
         - name: logoutput
-          image: mahk00/logoutput:0.2.1
+          image: mahk00/logoutput:0.2.2
+          volumeMounts: # Mount volume
+          - name: shared-file
+            mountPath: /usr/src/app/files
+        - name: writerapp
+          image: mahk00/writerapp:0.1
+          volumeMounts: # Mount volume
+          - name: shared-file
+            mountPath: /usr/src/app/files
