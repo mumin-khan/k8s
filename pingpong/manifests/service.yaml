@@ -7,6 +7,6 @@ spec:
   selector:
     app: ping-pong
   ports:
-    - port: 2335
+    - port: 80
       protocol: TCP
       targetPort: 3000

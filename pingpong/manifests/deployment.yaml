@@ -14,4 +14,4 @@ spec:
     spec:
       containers:
         - name: ping-pong
-          image: mahk00/ping-pong:0.1
+          image: mahk00/ping-pong:2.0.5

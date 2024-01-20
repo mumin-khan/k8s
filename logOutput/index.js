@@ -46,7 +46,18 @@ const getFile = async (filename) => new Promise(res => {
 
     app.get('/pingpong',async function(req,res)
     {
-      res.send(`tstamp:${currentDate} ###  \n ping pong${await getFile('pingpong.txt')}`)
+      
+      try{
+        const pingPongs = await fetch("http://pingpong-service/count") 
+        
+        const data =await  pingPongs.json()
+      res.send(`tstamp:${currentDate} ###  \n ping pong ${data}`)
+      }
+      catch(e) 
+      {
+        res.send(`${e}hi`)
+      }
+      
 
     })
     // Start the server

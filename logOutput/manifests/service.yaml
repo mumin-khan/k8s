@@ -7,6 +7,6 @@ spec:
   selector:
     app: images
   ports:
-    - port: 2333
+    - port: 80
       protocol: TCP
       targetPort: 3000

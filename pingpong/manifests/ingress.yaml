@@ -12,11 +12,18 @@ spec:
           service:
             name:  pingpong-service
             port:
-              number: 2335
+              number: 80
       - path: /status
         pathType: Prefix
         backend:
           service:
             name:  logoutput-service
             port:
-              number: 2333
+              number: 80
+      - path: /pingpong
+        pathType: Prefix
+        backend:
+          service:
+            name:  logoutput-service
+            port:
+              number: 80
