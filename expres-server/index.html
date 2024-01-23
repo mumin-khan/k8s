@@ -8,34 +8,60 @@
     
     <img  src="image.jpg">
     <div>
-        <input type="text" maxlength="140">
-        <button>Create Todo</button>
+        <input id="inp" type="text" maxlength="140">
+        <button id="addTaskBtn" >Create Todo</button>
     </div>
     <div>
-        <ul>
+        <ul id="taskList">
             <li>code</li>
             <li>eat </li>
             <li>sleep</li>
         </ul>
     </div>
-    <!-- <script>
-        // Function to update the image source
-        function updateImage() {
-            // Assume you have a function to get the dynamic image name from the server
-            // You need to replace this with your actual logic
-            imageUrl = `image.jpg`
-            // Update the image source
-            document.getElementById("dynamic-image").src = imageUrl;
+    <script>
+         async function updateTaskList() {
+        const taskListElement = document.getElementById("taskList");
+        taskListElement.innerHTML = "";
+         fetch('/api/todos', {
+                method: 'GET'
+            }).then(response => response.json()).then
+         (data => data.todos.forEach(task => {
+            const listItem = document.createElement("li");
+            listItem.textContent = task.task;
+            taskListElement.appendChild(listItem);
+        }));
+    }
+
+    // Function to handle the button click event
+    function addTaskButtonClick() {
+        const task = document.getElementById("inp").value
+
+        if (task) {
+           
+            fetch('/api/todos', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ task:task }),
+            })
+            .then(response => response)
+            .then(async data => {
+                console.log('Success:', data);
+               await  updateTaskList()
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
         }
-    
-       
-    
-        // Call the updateImage function to initially load the image
-        updateImage();
-    
-        // Optionally, you can set up a timer to periodically update the image
-        // setInterval(updateImage, 5000); // Update every 5 seconds, for example
-    </script> -->
+    }
+
+    // Add event listener to the button
+    const addTaskButton = document.getElementById("addTaskBtn");
+    addTaskButton.addEventListener("click", addTaskButtonClick);
+    updateTaskList()
+</script>
+    </script>
 </body>
 </html>
 

@@ -18,7 +18,9 @@ spec:
             claimName: file-claim
       containers:
         - name: todo
-          image: mahk00/todo:0.6.1
+          image: mahk00/todo:1.0.3
           volumeMounts:
             - name: shared-file
               mountPath: /usr/src/app/files
+        - name: todo-backend
+          image: mahk00/todo-backend:1.0.0

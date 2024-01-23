@@ -3,6 +3,7 @@ import path from 'path'
 import fs from 'fs'
 import axios from 'axios'
 import { promisify } from 'util'
+import cors from 'cors'
 const writeFileAsync = promisify(fs.writeFile);
 const statAsync = promisify(fs.stat);
 const directory = path.join('/', 'usr', 'src', 'app', 'files')
@@ -27,7 +28,7 @@ const directoryAlreadyExists = async () => new Promise(res => {
 findADirectory()
 
 const app =express()
-
+app.use(cors())
 const port = process.env.PORT || 3000;
 
 async function downloadImage(url, filePath) {

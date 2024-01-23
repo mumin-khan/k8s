@@ -12,4 +12,11 @@ spec:
           service:
             name: express-service
             port:
-              number: 2334
+              number: 80
+      - path: /api
+        pathType: Prefix
+        backend:
+          service: 
+            name: todo-backend-service
+            port:
+              number: 80 
