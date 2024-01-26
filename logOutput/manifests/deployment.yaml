@@ -1,8 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: logping
   name: file-dep
+  namespace: logping
+
 spec:
   replicas: 1
   selector:
@@ -18,7 +19,18 @@ spec:
       #     emptyDir: {}
       containers:
         - name: logoutput
-          image: mahk00/logoutput:2.0.7
+          image: mahk00/logoutput:2.1.7
+          # command: [ "/bin/sh", "-c", "env" ]
+          env:
+          - name: MESSAGE
+            valueFrom:
+              configMapKeyRef:
+                name: env-config
+                key: message
+          volumeMounts:
+          - name: foo
+            mountPath: "/etc/foo"
+            readOnly: true
           # volumeMounts: # Mount volume
           # - name: shared-file
           #   mountPath: /usr/src/app/files
@@ -27,3 +39,7 @@ spec:
           # volumeMounts: # Mount volume
           # - name: shared-file
           #   mountPath: /usr/src/app/files
+      volumes:
+      - name: foo
+        configMap:
+          name: env-config  

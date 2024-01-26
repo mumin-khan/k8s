@@ -5,7 +5,7 @@ import fs from 'fs'
 
 const directory = path.join('/', 'usr', 'src', 'app', 'files')
 const port = process.env.PORT || 3000;
-;
+
 
 function generateRandomString(length) {
     const characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -51,7 +51,7 @@ const getFile = async (filename) => new Promise(res => {
         const pingPongs = await fetch("http://pingpong-service/count") 
         
         const data =await  pingPongs.json()
-      res.send(`tstamp:${currentDate} ###  \n ping pong ${data}`)
+      res.send(`${process.env.MESSAGE} \n tstamp:${currentDate} ###  \n ping pong ${data}`)
       }
       catch(e) 
       {
