@@ -24,4 +24,15 @@ spec:
             - name: shared-file
               mountPath: /usr/src/app/files
         - name: todo-backend
-          image: mahk00/todo-backend:1.0.0
+          image: mahk00/todo-backend:2.7.5
+          env:
+          - name: USERNAME # ENV name passed to container
+            valueFrom:
+              secretKeyRef:
+                name: db-uri
+                key: USERNAME # ENV name in the secret
+          - name: PASSWORD # ENV name passed to container
+            valueFrom:
+              secretKeyRef:
+                name: db-uri
+                key: PASSWORD # ENV name in the secret
