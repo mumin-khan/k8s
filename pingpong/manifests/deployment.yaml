@@ -1,8 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: logping
   name: ping-pong
+  namespace: logping
+
 spec:
   replicas: 1
   selector:
@@ -15,4 +16,15 @@ spec:
     spec:
       containers:
         - name: ping-pong
-          image: mahk00/ping-pong:2.0.5
+          image: mahk00/ping-pong:2.7.9
+          env:
+          - name: USERNAME # ENV name passed to container
+            valueFrom:
+              secretKeyRef:
+                name: db-uri
+                key: USERNAME # ENV name in the secret
+          - name: PASSWORD # ENV name passed to container
+            valueFrom:
+              secretKeyRef:
+                name: db-uri
+                key: PASSWORD # ENV name in the secret

@@ -1,4 +1,4 @@
-FROM node:12.22.12-alpine
+FROM node:18-alpine
 COPY package*.json .
 RUN npm ci 
 
