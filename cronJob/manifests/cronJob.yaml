@@ -1,0 +1,15 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: myjob
+  namespace: project-kub
+spec:
+  schedule: "0 0 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: link
+            image: mahk00/cron:0.0.1
+          restartPolicy: OnFailure
