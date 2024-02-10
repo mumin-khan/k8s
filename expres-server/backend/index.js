@@ -1,4 +1,4 @@
-import express from 'express'
+ import express from 'express'
 import cors from 'cors'
 import pg from 'pg-promise'
 
@@ -44,7 +44,16 @@ app.post('/api/todos',async (req,res)=>{
     )
     res.status(201).end()
 })
-
+app.get('/healthz',async (req,res)=>{
+  try{
+    const connected = await db.connect()
+    connected.done()
+    return res.status(200).end()
+  }
+  catch{
+    return res.status(500).end()
+  }
+})
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
   });

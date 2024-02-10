@@ -24,7 +24,7 @@ spec:
             - name: shared-file
               mountPath: /usr/src/app/files
         - name: todo-backend
-          image: mahk00/todo-backend:2.7.5
+          image: mahk00/todo-backend:2.8.0
           env:
           - name: USERNAME # ENV name passed to container
             valueFrom:
@@ -36,3 +36,15 @@ spec:
               secretKeyRef:
                 name: db-uri
                 key: PASSWORD # ENV name in the secret
+          readinessProbe: 
+            initialDelaySeconds: 15
+            periodSeconds: 5
+            httpGet:
+              path: /healthz
+              port: 3000
+          livenessProbe: 
+            initialDelaySeconds: 45
+            periodSeconds: 5
+            httpGet:
+              path: /healthz
+              port: 3000
