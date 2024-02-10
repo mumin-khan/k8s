@@ -19,7 +19,7 @@ spec:
       #     emptyDir: {}
       containers:
         - name: logoutput
-          image: mahk00/logoutput:2.1.7
+          image: mahk00/logoutput:2.2.1
           # command: [ "/bin/sh", "-c", "env" ]
           env:
           - name: MESSAGE
@@ -31,6 +31,12 @@ spec:
           - name: foo
             mountPath: "/etc/foo"
             readOnly: true
+          readinessProbe: 
+            initialDelaySeconds: 15
+            periodSeconds: 5
+            httpGet:
+              path: /healthz
+              port: 3000
           # volumeMounts: # Mount volume
           # - name: shared-file
           #   mountPath: /usr/src/app/files

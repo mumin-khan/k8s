@@ -25,8 +25,7 @@ function generateRandomString(length) {
     setInterval(() => {
        currentDate = new Date(Date.now()).toISOString()
        console.log(randomString,currentDate ) 
-    }, 5000);
-
+    }, 5000)
 const getFile = async (filename) => new Promise(res => {
       fs.readFile(path.join(directory, filename), (err, buffer) => {
         if (err) return console.log('FAILED TO READ FILE', '----------------', err)
@@ -58,6 +57,23 @@ const getFile = async (filename) => new Promise(res => {
         res.send(`${e}hi`)
       }
       
+
+    })
+
+    app.get('/healthz',async (req,res)=>{
+      
+      try{
+        const pingPongs = await fetch("http://pingpong-service/count") 
+        
+        const data =await  pingPongs.json()
+        
+        return res.status(200).end()
+      }
+      catch(e) 
+      {
+        res.status(500).send(`${e}hi`)
+      }
+      return res.status(500).end()
 
     })
     // Start the server

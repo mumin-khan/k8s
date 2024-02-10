@@ -61,6 +61,16 @@ app.get('/count',async function(req,res)
   res.send(`${counter}`)
 })
 
+app.get('/healthz',async (req,res)=>{
+  try{
+    const connected = await db.connect()
+    connected.done()
+    return res.status(200).end()
+  }
+  catch{
+    return res.status(500).end()
+  }
+})
 // Start the server
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);

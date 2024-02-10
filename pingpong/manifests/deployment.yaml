@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: ping-pong
-          image: mahk00/ping-pong:2.7.9
+          image: mahk00/ping-pong:2.8.0
           env:
           - name: USERNAME # ENV name passed to container
             valueFrom:
@@ -28,3 +28,9 @@ spec:
               secretKeyRef:
                 name: db-uri
                 key: PASSWORD # ENV name in the secret
+          readinessProbe: 
+            initialDelaySeconds: 15
+            periodSeconds: 5
+            httpGet:
+              path: /healthz
+              port: 3000
