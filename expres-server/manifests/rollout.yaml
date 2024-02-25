@@ -1,0 +1,57 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  namespace: project-kub
+  name: todo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: todo
+  strategy:
+    canary:
+      steps:
+      - setWeight: 50
+      - analysis:
+          templates:
+          - templateName: cpu-rate  
+  template:
+    metadata:
+      labels:
+        app: todo
+    spec:
+      volumes:
+        - name: shared-file
+          persistentVolumeClaim:
+            claimName: file-claim
+      containers:
+        - name: todo
+          image: mahk00/todo:1.0.3
+          volumeMounts:
+            - name: shared-file
+              mountPath: /usr/src/app/files
+        - name: todo-backend
+          image: mahk00/todo-backend:2.8.0
+          env:
+          - name: USERNAME # ENV name passed to container
+            valueFrom:
+              secretKeyRef:
+                name: db-uri
+                key: USERNAME # ENV name in the secret
+          - name: PASSWORD # ENV name passed to container
+            valueFrom:
+              secretKeyRef:
+                name: db-uri
+                key: PASSWORD # ENV name in the secret
+          readinessProbe: 
+            initialDelaySeconds: 15
+            periodSeconds: 5
+            httpGet:
+              path: /healthz
+              port: 3000
+          livenessProbe: 
+            initialDelaySeconds: 45
+            periodSeconds: 5
+            httpGet:
+              path: /healthz
+              port: 3000
